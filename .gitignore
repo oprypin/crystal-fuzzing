@@ -1,0 +1,8 @@
+*
+
+!.gitignore
+!*.yml
+!*.md
+
+!/fuzz_*/
+!*.cr
