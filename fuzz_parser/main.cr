@@ -22,6 +22,8 @@ class Visitor < Crystal::ToSVisitor
       }
     when "it_parses", "it_lexes"
       node.body = parse(save_variable("string"))
+    when "assert_end_location"
+      node.body = parse(save_variable("source"))
     end
     super
   end
@@ -51,7 +53,7 @@ end
 
 radamsa = start_process("radamsa", "--output", ":#{RADAMSA_PORT}", "--count", "inf", "--recursive", "samples")
 at_exit do
-  radamsa.kill
+  radamsa.signal :kill
 end
 run_process("crystal", "build", "fuzz_parser/tester.cr", "-o", "fuzz_parser/tester", chdir: "..")
 if radamsa.terminated?
